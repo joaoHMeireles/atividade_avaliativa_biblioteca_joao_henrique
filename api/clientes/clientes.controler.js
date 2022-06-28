@@ -3,7 +3,7 @@ const router = express.Router();
 const clientesHandler = require("./clientes.handler");
 
 router.get('/', (req, res) => {
-    res.json({message:"aaaaaaaaaaaaaaaaa"})
+    res.send("aaaaaaaaaaaaaaaaa")
 });
 
 module.exports = router;
