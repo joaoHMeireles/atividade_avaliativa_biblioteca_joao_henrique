@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+const { initializeApp } = require("firebase/app");
 const {
     getFirestore,
     collection,
@@ -81,9 +81,3 @@ async function remove(nomeTabela, id){
   }
 }
 
-module.exports = {
-  save,
-  get,
-  getById,
-  remove
-}

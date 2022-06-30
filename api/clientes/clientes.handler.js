@@ -1,4 +1,4 @@
-//const crud = require('../../crud/');
+const crud = require('../../crud/');
 
 function buscarClientes(){
     const dados = crud.get("clientes");
