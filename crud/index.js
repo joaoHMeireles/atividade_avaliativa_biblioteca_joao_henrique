@@ -82,3 +82,9 @@ async function remove(nomeTabela, id){
   }
 }
 
+module.exports = {
+  save,
+  get,
+  getById,
+  remove
+}
