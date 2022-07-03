@@ -1,23 +1,23 @@
-const crud = require('../../crud/');
+const {save, get, getById, remove} = require('../../crud/index');
 
-function buscarAutores() {
-    return crud.get("autores");
+async function buscarAutores() {
+    return await get("autores");
 };
 
-function buscarAutor(id) {
-    return crud.getById("autores", id)
+async function buscarAutor(id) {
+    return await getById("autores", id)
 }
 
-function inserirAutor(dado) {
-    return crud.save("autores", false, dado)
+async function inserirAutor(dado) {
+    return await save("autores", false, dado)
 }
 
-function atualizarAutor(dado, id) {
-    return crud.save("autores", id, dado)
+async function atualizarAutor(dado, id) {
+    return await save("autores", id, dado)
 }
 
-function removerAutor(id) {
-    return crud.remove("autores", id)
+async function removerAutor(id) {
+    return await remove("autores", id)
 }
 
 module.exports = {
