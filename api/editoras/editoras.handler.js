@@ -1,23 +1,23 @@
-const crud = require('../../crud/');
+const { save, get, getById, remove } = require('../../crud/index');
 
-function buscarEditoras() {
-    return crud.get("editoras");
+async function buscarEditoras() {
+    return await get("editoras");
 };
 
-function buscarEditora(id) {
-    return crud.getById("editoras", id)
+async function buscarEditora(id) {
+    return await getById("editoras", id)
 }
 
-function inserirEditora(dado) {
-    return crud.save("editoras", false, dado)
+async function inserirEditora(dado) {
+    return await save("editoras", false, dado)
 }
 
-function atualizarEditora(dado, id) {
-    return crud.save("editoras", id, dado)
+async function atualizarEditora(dado, id) {
+    return await save("editoras", id, dado)
 }
 
-function removerEditora(id) {
-    return crud.remove("editoras", id)
+async function removerEditora(id) {
+    return await remove("editoras", id)
 }
 
 module.exports = {

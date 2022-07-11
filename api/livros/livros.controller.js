@@ -2,24 +2,24 @@ const express = require('express');
 const router = express.Router();
 const livrosHandler = require("./livros.handler");
 
-router.get('/', (req, res) => {
-    res.json(livrosHandler.buscarLivros());
+router.get('/', async (req, res) => {
+    res.json(await livrosHandler.buscarLivros());
 });
 
-router.get('/:id', (req, res) => {
-    res.json(livrosHandler.buscarLivro(req.params.id));
+router.get('/:id', async (req, res) => {
+    res.json(await livrosHandler.buscarLivro(req.params.id));
 });
 
-router.post("/", (req, res) => {
-    res.json(livrosHandler.inserirLivro(req.body));
+router.post("/", async (req, res) => {
+    res.json(await livrosHandler.inserirLivro(req.body));
 })
 
-router.put("/:id", (req, res) => {
-    res.json(livrosHandler.atualizarLivro(req.body, req.params.id));
+router.put("/:id", async (req, res) => {
+    res.json(await livrosHandler.atualizarLivro(req.body, req.params.id));
 })
 
-router.delete("/:id", (req, res) => {
-    res.json(livrosHandler.removerLivro(req.params.id));
+router.delete("/:id", async (req, res) => {
+    res.json(await livrosHandler.removerLivro(req.params.id));
 })
 
 module.exports = router;

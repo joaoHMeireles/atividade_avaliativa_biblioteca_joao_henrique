@@ -2,24 +2,24 @@ const express = require('express');
 const router = express.Router();
 const autoresLivroHandler = require("./autoresLivro.handler");
 
-router.get('/', (req, res) => {
-    res.json(autoresLivroHandler.buscarAutoresLivros());
+router.get('/', async (req, res) => {
+    res.json(await autoresLivroHandler.buscarAutoresLivros());
 });
 
-router.get('/:id', (req, res) => {
-    res.json(autoresLivroHandler.buscarAutoresLivro(req.params.id));
+router.get('/:id', async (req, res) => {
+    res.json(await autoresLivroHandler.buscarAutoresLivro(req.params.id));
 });
 
-router.post("/", (req, res) => {
-    res.json(autoresLivroHandler.inserirAutoresLivro(req.body));
+router.post("/", async (req, res) => {
+    res.json(await autoresLivroHandler.inserirAutoresLivro(req.body));
 })
 
-router.put("/:id", (req, res) => {
-    res.json(autoresLivroHandler.atualizarAutoresLivro(req.body, req.params.id));
+router.put("/:id", async (req, res) => {
+    res.json(await autoresLivroHandler.atualizarAutoresLivro(req.body, req.params.id));
 })
 
-router.delete("/:id", (req, res) => {
-    res.json(autoresLivroHandler.removerAutoresLivro(req.params.id));
+router.delete("/:id", async (req, res) => {
+    res.json(await autoresLivroHandler.removerAutoresLivro(req.params.id));
 })
 
 module.exports = router;

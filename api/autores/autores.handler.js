@@ -1,4 +1,4 @@
-const {save, get, getById, remove} = require('../../crud/index');
+const { save, get, getById, remove } = require('../../crud/index');
 
 async function buscarAutores() {
     return await get("autores");
