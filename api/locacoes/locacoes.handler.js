@@ -1,5 +1,6 @@
 const { save, get, getById, remove } = require('../../crud/index');
 const { inserirLivrosLocacao, atualizarLivrosLocacao, buscarLivrosLocacoes } = require('../livrosLocacao/livrosLocacao.handler')
+const { atualizarLivro, buscarLivro } = require('../livros/livros.handler')
 
 async function buscarLocacoes() {
     return await get("locacoes");
@@ -19,6 +20,17 @@ async function inserirLocacao(dado) {
             devolvido: false
         }
 
+        const livro = await buscarLivro(id_livro)
+
+        const info = {
+            id: id_livro,
+            id_editora: livro.id_editora,
+            naBiblioteca: false
+        }
+
+        await atualizarLivro(info, id_livro)
+
+
         await inserirLivrosLocacao(dado)
     }
 
@@ -37,6 +49,21 @@ async function atualizarLocacao(dado, id) {
                         id_locacao: id,
                         devolvido: livroLocacao.devolvido
                     }
+
+                    const livros = await buscarLivros()
+
+                    for (const livro of livros) {
+                        if (livro.id = dado.id_livro) {
+                            let info = {
+                                id: id_livro,
+                                id_editora: livro.id_editora,
+                                naBiblioteca: true
+                            }
+
+                            await atualizarLivro(info, livro.id)
+                        }
+                    }
+
                     await atualizarLivrosLocacao(dado, livro.id)
                 }
             }
