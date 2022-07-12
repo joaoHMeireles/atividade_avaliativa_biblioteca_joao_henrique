@@ -6,8 +6,12 @@ router.get('/', async (req, res) => {
     res.json(await autoresLivroHandler.buscarAutoresLivros());
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/livro/:id', async (req, res) => {
     res.json(await autoresLivroHandler.buscarAutoresLivro(req.params.id));
+});
+
+router.get('/:id', async (req, res) => {
+    res.json(await autoresLivroHandler.buscarAutorLivro(req.params.id));
 });
 
 router.post("/", async (req, res) => {

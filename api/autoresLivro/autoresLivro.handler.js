@@ -5,10 +5,14 @@ async function buscarAutoresLivros() {
 };
 
 async function buscarAutoresLivro(id) {
+    return await buscarAutoresLivros().find(e => e.id_livro === id)
+}
+
+async function buscarAutorLivro(id){
     return await getById("autores_livro", id)
 }
 
-async function inserirAutoresLivrFo(dado) {
+async function inserirAutoresLivro(dado) {
     return await save("autores_livro", false, dado)
 }
 
@@ -23,6 +27,7 @@ async function removerAutoresLivro(id) {
 module.exports = {
     buscarAutoresLivros,
     buscarAutoresLivro,
+    buscarAutorLivro,
     inserirAutoresLivro,
     atualizarAutoresLivro,
     removerAutoresLivro
