@@ -5,7 +5,8 @@ async function buscarAutoresLivros() {
 };
 
 async function buscarAutoresLivro(id) {
-    return await buscarAutoresLivros().find(e => e.id_livro === id)
+    const autoresLivros = await buscarAutoresLivros()
+    return autoresLivros.filter(e => e.id_livro === id)
 }
 
 async function buscarAutorLivro(id){

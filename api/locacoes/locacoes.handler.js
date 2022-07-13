@@ -1,6 +1,7 @@
 const { save, get, getById, remove } = require('../../crud/index');
-const { inserirLivrosLocacao, atualizarLivrosLocacao, buscarLivrosLocacoes } = require('../livrosLocacao/livrosLocacao.handler')
-const { atualizarLivro, buscarLivro } = require('../livros/livros.handler')
+const { inserirLivrosLocacao, atualizarLivrosLocacao, buscarLivrosLocacoes, buscarLivrosLocacao, buscarLocacaoLivro } = require('../livrosLocacao/livrosLocacao.handler')
+const { atualizarLivro, buscarLivros, buscarLivro } = require('../livros/livros.handler')
+const { buscarAutoresLivro } = require("../autoresLivro/autoresLivro.handler")
 
 async function buscarLocacoes() {
     return await get("locacoes");
@@ -21,12 +22,19 @@ async function inserirLocacao(dado) {
         }
 
         const livro = await buscarLivro(id_livro)
+        const autores = await buscarAutoresLivro(id_livro)
+        const id_autores = autores.map(e => {
+            return e.id_autor
+        })
 
         const info = {
-            id: id_livro,
-            id_editora: livro.id_editora,
-            naBiblioteca: false
+            livro: {
+                id_editora: livro.id_editora,
+                naBiblioteca: false
+            },
+            autores: id_autores
         }
+
 
         await atualizarLivro(info, id_livro)
 
@@ -44,27 +52,42 @@ async function atualizarLocacao(dado, id) {
         if (livro.id_locacao == id) {
             for (const livroLocacao of dado.livros) {
                 if (livroLocacao.id_livro == livro.id_livro) {
-                    const dado = {
+                    const dadoLivro = {
                         id_livro: livro.id_livro,
                         id_locacao: id,
                         devolvido: livroLocacao.devolvido
                     }
+                    //ver isso aqui mds
+                    console.log(dadoLivro)
 
-                    const livros = await buscarLivros()
+                    // const ids = {id_locacao: id, id_livro: livroLocacao.id_livro}
+                    // const idLocacaoDoLivro = await buscarLocacaoLivro(ids)
 
-                    for (const livro of livros) {
-                        if (livro.id = dado.id_livro) {
-                            let info = {
-                                id: id_livro,
-                                id_editora: livro.id_editora,
-                                naBiblioteca: true
-                            }
+                    // console.log("bbbbbbbbb")
+                    // console.log(idLocacaoDoLivro);
 
-                            await atualizarLivro(info, livro.id)
-                        }
-                    }
+                    // const livros = await buscarLivros()
 
-                    await atualizarLivrosLocacao(dado, livro.id)
+                    // for (const livroBiblioteca of livros) {
+                    //     if (livroBiblioteca.id == dadoLivro.id_livro) {
+                    //         const autores = await buscarAutoresLivro(livroBiblioteca.id)
+                    //         const id_autores = autores.map(e => {
+                    //             return e.id_autor
+                    //         })
+
+                    //         let info = {
+                    //             livro: {
+                    //                 id_editora: livroBiblioteca.id_editora,
+                    //                 naBiblioteca: true
+                    //             },
+                    //             autores: id_autores
+                    //         }
+
+                    //         await atualizarLivro(info, livroBiblioteca.id)
+                    //     }
+                    // }
+                    
+                    // await atualizarLivrosLocacao(dadoLivro, idLocacaoDoLivro)
                 }
             }
         }
