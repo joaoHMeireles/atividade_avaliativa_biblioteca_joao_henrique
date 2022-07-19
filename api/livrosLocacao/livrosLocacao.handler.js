@@ -6,12 +6,7 @@ async function buscarLivrosLocacoes() {
 
 async function buscarLivrosLocacao(id) {
     const livrosLocacoes = await buscarLivrosLocacoes()
-    return livrosLocacoes.filter(e => e.id_locacao === id)
-}
-
-async function buscarLocacaoLivro(ids) {
-    const livrosLocacoes = await buscarLivrosLocacoes()
-    return livrosLocacoes.find(e => e.id_locacao === ids.id_locacao && e.id_livro === ids.id_livro)
+    return livrosLocacoes.filter(e => e.id_locacao == id)
 }
 
 async function buscarLivroLocacao(id){
@@ -33,7 +28,6 @@ async function removerLivrosLocacao(id) {
 module.exports = {
     buscarLivrosLocacoes,
     buscarLivrosLocacao,
-    buscarLocacaoLivro,
     buscarLivroLocacao,
     inserirLivrosLocacao,
     atualizarLivrosLocacao,

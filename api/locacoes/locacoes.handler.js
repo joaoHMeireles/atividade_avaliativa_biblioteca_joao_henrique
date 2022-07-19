@@ -12,20 +12,40 @@ async function buscarLocacao(id) {
 }
 
 async function inserirLocacao(dado) {
+    const locacoes = await buscarLocacoes()
+    const locacacoesCliente = locacoes.filter(e => e.id_cliente === dado.locacao.id_cliente)
+
+    console.log(locacacoesCliente)
+
+    for(const cliente of locacacoesCliente){
+        if(cliente != null || cliente != []){
+            const locacoes = await buscarLivrosLocacao(cliente.id)
+            console.log(locacoes)
+    
+            for(const locacao of locacoes){
+                if(!locacao.devolvido){
+                    return {message: "Já tem uma locação pendente"}
+                }
+            }
+        }
+    }
     const locacaoSalva = await save("locacoes", false, dado.locacao)
 
     for (const id_livro of dado.livros) {
+        const livro = await buscarLivro(id_livro)
+        if(!livro.naBiblioteca){
+            return {message: "Esse livro está alugado no momento"}
+        }
+        const autores = await buscarAutoresLivro(id_livro)
+        const id_autores = autores.map(e => {
+            return e.id_autor
+        })
+
         const dado = {
             id_livro: id_livro,
             id_locacao: locacaoSalva.id,
             devolvido: false
         }
-
-        const livro = await buscarLivro(id_livro)
-        const autores = await buscarAutoresLivro(id_livro)
-        const id_autores = autores.map(e => {
-            return e.id_autor
-        })
 
         const info = {
             livro: {
@@ -35,9 +55,7 @@ async function inserirLocacao(dado) {
             autores: id_autores
         }
 
-
         await atualizarLivro(info, id_livro)
-
 
         await inserirLivrosLocacao(dado)
     }
@@ -46,54 +64,38 @@ async function inserirLocacao(dado) {
 }
 
 async function atualizarLocacao(dado, id) {
-    const livrosLocacao = await buscarLivrosLocacoes()
+    const locacoesLivros = await buscarLivrosLocacao(id)
 
-    for (const livro of livrosLocacao) {
-        if (livro.id_locacao == id) {
-            for (const livroLocacao of dado.livros) {
-                if (livroLocacao.id_livro == livro.id_livro) {
-                    const dadoLivro = {
-                        id_livro: livro.id_livro,
-                        id_locacao: id,
-                        devolvido: livroLocacao.devolvido
-                    }
-                    //ver isso aqui mds
-                    console.log(dadoLivro)
+    for (const livroLocacao of dado.livros) {
+        const livro = await buscarLivro(livroLocacao.id_livro)
 
-                    // const ids = {id_locacao: id, id_livro: livroLocacao.id_livro}
-                    // const idLocacaoDoLivro = await buscarLocacaoLivro(ids)
+        const autores = await buscarAutoresLivro(livroLocacao.id_livro)
+        const id_autores = autores.map(e => {
+            return e.id_autor
+        })
 
-                    // console.log("bbbbbbbbb")
-                    // console.log(idLocacaoDoLivro);
-
-                    // const livros = await buscarLivros()
-
-                    // for (const livroBiblioteca of livros) {
-                    //     if (livroBiblioteca.id == dadoLivro.id_livro) {
-                    //         const autores = await buscarAutoresLivro(livroBiblioteca.id)
-                    //         const id_autores = autores.map(e => {
-                    //             return e.id_autor
-                    //         })
-
-                    //         let info = {
-                    //             livro: {
-                    //                 id_editora: livroBiblioteca.id_editora,
-                    //                 naBiblioteca: true
-                    //             },
-                    //             autores: id_autores
-                    //         }
-
-                    //         await atualizarLivro(info, livroBiblioteca.id)
-                    //     }
-                    // }
-                    
-                    // await atualizarLivrosLocacao(dadoLivro, idLocacaoDoLivro)
-                }
-            }
+        const dadoLivro = {
+            livro: {
+                naBiblioteca: livroLocacao.devolvido,
+                id_editora: livro.id_editora
+            },
+            autores: id_autores
         }
+
+        await atualizarLivro(dadoLivro, livroLocacao.id_livro)
+
+        const dadoLocacao = {
+            id_locacao: id,
+            id_livro: livroLocacao.id_livro,
+            devolvido: livroLocacao.devolvido
+        }
+
+        const id_locacao = locacoesLivros.find(e => e.id_livro === livroLocacao.id_livro).id
+
+        await atualizarLivrosLocacao(dadoLocacao, id_locacao)
     }
 
-    return await buscarLivrosLocacao(id)
+    return locacoesLivros
 }
 
 async function removerLocacao(id) {
