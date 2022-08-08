@@ -15,12 +15,9 @@ async function inserirLocacao(dado) {
     const locacoes = await buscarLocacoes()
     const locacacoesCliente = locacoes.filter(e => e.id_cliente === dado.locacao.id_cliente)
 
-    console.log(locacacoesCliente)
-
     for(const cliente of locacacoesCliente){
         if(cliente != null || cliente != []){
             const locacoes = await buscarLivrosLocacao(cliente.id)
-            console.log(locacoes)
     
             for(const locacao of locacoes){
                 if(!locacao.devolvido){
@@ -90,12 +87,12 @@ async function atualizarLocacao(dado, id) {
             devolvido: livroLocacao.devolvido
         }
 
-        const id_locacao = locacoesLivros.find(e => e.id_livro === livroLocacao.id_livro).id
+        const locacao = locacoesLivros.find(e => e.id_livro === livroLocacao.id_livro)
 
-        await atualizarLivrosLocacao(dadoLocacao, id_locacao)
+        await atualizarLivrosLocacao(dadoLocacao, locacao.id)
     }
 
-    return locacoesLivros
+    return await buscarLivrosLocacao(id)
 }
 
 async function removerLocacao(id) {

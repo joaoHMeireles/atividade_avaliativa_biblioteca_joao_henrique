@@ -10,7 +10,7 @@ async function buscarLivro(id) {
 }
 
 async function inserirLivro(dado) {
-    dado.naBiblioteca = true
+    dado.livro.naBiblioteca = true
     const livroSalvo = await save("livros", false, dado.livro)
 
     for (const id_autor of dado.autores) {

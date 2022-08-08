@@ -10,7 +10,7 @@ const {
     getDocs,
     getDoc,
     deleteDoc,
-  } = require("firebase/firestore/lite");
+  } = require("firebase/firestore");
 
   const firebaseConfig = {
     apiKey: "AIzaSyBfaUK8aVYJqds2Rmz8jlzXlxWqK_vIOJk",
@@ -48,11 +48,10 @@ async function get(nomeTabela) {
   const tabelaRef = collection(db, nomeTabela);
 
   const q = query(tabelaRef);
-
+  
   const querySnapshot = await getDocs(q);
-
+  
   const lista = [];
-
   querySnapshot.forEach((doc) => {
       const dado = {
           ...doc.data(),
