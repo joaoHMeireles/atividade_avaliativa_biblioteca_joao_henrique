@@ -1,5 +1,5 @@
 const { save, get, getById, remove } = require('../../crud/index');
-const { inserirAutoresLivro, removerAutoresLivro, buscarAutoresLivros} = require("../autoresLivro/autoresLivro.handler")
+const { inserirAutoresLivro, removerAutoresLivro, buscarAutoresLivros } = require("../autoresLivro/autoresLivro.handler")
 
 async function buscarLivros() {
     return await get("livros");
@@ -29,9 +29,9 @@ async function atualizarLivro(dado, id) {
     const livroSalvo = await save("livros", id, dado.livro)
     const autoresLivro = await buscarAutoresLivros()
 
-    for(const autores of autoresLivro){
-        if(autores.id_livro == id){
-            removerAutoresLivro(autores.id)
+    for (const autores of autoresLivro) {
+        if (autores.id_livro == id) {
+            await removerAutoresLivro(autores.id)
         }
     }
 

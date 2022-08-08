@@ -9,7 +9,7 @@ async function buscarLivrosLocacao(id) {
     return livrosLocacoes.filter(e => e.id_locacao == id)
 }
 
-async function buscarLivroLocacao(id){
+async function buscarLivroLocacao(id) {
     return await getById("livros_locacao", id)
 }
 

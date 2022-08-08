@@ -15,13 +15,13 @@ async function inserirLocacao(dado) {
     const locacoes = await buscarLocacoes()
     const locacacoesCliente = locacoes.filter(e => e.id_cliente === dado.locacao.id_cliente)
 
-    for(const cliente of locacacoesCliente){
-        if(cliente != null || cliente != []){
+    for (const cliente of locacacoesCliente) {
+        if (cliente != null || cliente != []) {
             const locacoes = await buscarLivrosLocacao(cliente.id)
-    
-            for(const locacao of locacoes){
-                if(!locacao.devolvido){
-                    return {message: "Já tem uma locação pendente"}
+
+            for (const locacao of locacoes) {
+                if (!locacao.devolvido) {
+                    return { message: "Já tem uma locação pendente" }
                 }
             }
         }
@@ -30,8 +30,8 @@ async function inserirLocacao(dado) {
 
     for (const id_livro of dado.livros) {
         const livro = await buscarLivro(id_livro)
-        if(!livro.naBiblioteca){
-            return {message: "Esse livro está alugado no momento"}
+        if (!livro.naBiblioteca) {
+            return { message: "Esse livro está alugado no momento" }
         }
         const autores = await buscarAutoresLivro(id_livro)
         const id_autores = autores.map(e => {
